@@ -1,38 +1,42 @@
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@material-ui/icons";
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
+import { sliderItems } from "../data";
+import { mobile } from "../responsive";
 
 const Container = styled.div`
   width: 100%;
   height: 100vh;
   display: flex;
-  /* background-color: coral; */
   position: relative;
   overflow: hidden;
+  ${mobile({ display: "none" })}
 `;
+
 const Arrow = styled.div`
   width: 50px;
   height: 50px;
-  background-color: #f5f5f5;
+  background-color: #fff7f7;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   position: absolute;
-  left: ${(props) =>
-    props.direction === "left" ? "10px" : "calc(100% - 60px)"};
   top: 0;
   bottom: 0;
+  left: ${(props) => props.direction === "left" && "10px"};
+  right: ${(props) => props.direction === "right" && "10px"};
   margin: auto;
   cursor: pointer;
   opacity: 0.5;
-  z-index: 999;
+  z-index: 2;
 `;
 
 const Wrapper = styled.div`
   height: 100%;
   display: flex;
-  transition: all 0.7s ease-in-out;
+  transition: all 1.5s ease;
+  transform: translateX(${(props) => props.slideIndex * -100}vw);
 `;
 
 const Slide = styled.div`
@@ -44,11 +48,14 @@ const Slide = styled.div`
 `;
 
 const ImgContainer = styled.div`
+  height: 100%;
   flex: 1;
 `;
+
 const Image = styled.img`
   height: 80%;
 `;
+
 const InfoContainer = styled.div`
   flex: 1;
   padding: 50px;
@@ -57,12 +64,14 @@ const InfoContainer = styled.div`
 const Title = styled.h1`
   font-size: 70px;
 `;
-const Description = styled.p`
+
+const Desc = styled.p`
   margin: 50px 0px;
   font-size: 20px;
   font-weight: 500;
   letter-spacing: 3px;
 `;
+
 const Button = styled.button`
   padding: 10px;
   font-size: 20px;
@@ -71,37 +80,12 @@ const Button = styled.button`
 `;
 
 const Slider = () => {
-  const slides = [
-    {
-      bg: "f2f200",
-      img: "https://www.byrdie.com/thmb/w0YNNCc_FXlckQktZc1syl9kzuo=/1000x1000/filters:fill(auto,1)/sipsip-3d750d4ed7154222a2dd1722ed3f71d2.jpg",
-      title: "Sipsip",
-      description: "desc 1 ",
-      button: "button 1",
-    },
-    {
-      bg: "a56712",
-      img: "https://www.byrdie.com/thmb/w0YNNCc_FXlckQktZc1syl9kzuo=/1000x1000/filters:fill(auto,1)/sipsip-3d750d4ed7154222a2dd1722ed3f71d2.jpg",
-      title: "Sipsip 2 ",
-      description: "desc 2 ",
-      button: "button 2",
-    },
-  ];
-  const [activeSlide, setActiveSlide] = useState(0);
+  const [slideIndex, setSlideIndex] = useState(0);
   const handleClick = (direction) => {
-    console.log(activeSlide,direction);
     if (direction === "left") {
-      if (activeSlide !== 0) {
-        setActiveSlide(activeSlide - 1);
-      } else {
-        setActiveSlide(slides.length - 1);
-      }
+      setSlideIndex(slideIndex > 0 ? slideIndex - 1 : 2);
     } else {
-      if (activeSlide !== slides.length - 1) {
-        setActiveSlide(activeSlide + 1);
-      }else{
-        setActiveSlide(0);
-      }
+      setSlideIndex(slideIndex < 2 ? slideIndex + 1 : 0);
     }
   };
 
@@ -110,16 +94,16 @@ const Slider = () => {
       <Arrow direction="left" onClick={() => handleClick("left")}>
         <ArrowLeftOutlined />
       </Arrow>
-      <Wrapper style={{ transform: `translateX(${activeSlide * 100}vw)` }}>
-        {slides.map((slide, index) => (
-          <Slide bg={slide.bg} key={index}>
+      <Wrapper slideIndex={slideIndex}>
+        {sliderItems.map((item) => (
+          <Slide bg={item.bg} key={item.id}>
             <ImgContainer>
-              <Image src={slide.img} />
+              <Image src={item.img} />
             </ImgContainer>
             <InfoContainer>
-              <Title>{slide.title}</Title>
-              <Description>{slide.description}</Description>
-              <Button>{slide.button}</Button>
+              <Title>{item.title}</Title>
+              <Desc>{item.desc}</Desc>
+              <Button>SHOW NOW</Button>
             </InfoContainer>
           </Slide>
         ))}
