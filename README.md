@@ -41,3 +41,13 @@
 - Create routes folder and create router files for each route 
 - Add routes to app 
 - Add express.json middleware to app for using json type on requests
+- Create models for make application dynamic
+
+#### Creating Model
+- Mongoose model inculudes table name as tring and schema
+- Mongoose schema defines object types and attributes
+- You can add Date now for created at but mongoose have own method,
+- Try to mongoose schema second object {timestamps:true}
+- Timestamps gives us to control createdAt and UpdatedAt times
+
+ 

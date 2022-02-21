@@ -17,7 +17,7 @@ mongoose
   });
 
 app.use(express.json());
-app.use("/api/users ", userRouter);
+app.use("/api/users", userRouter);
 
 app.listen(port, () => {
   console.log(`Backend server is running !! App listening on port ${port} !!`);
