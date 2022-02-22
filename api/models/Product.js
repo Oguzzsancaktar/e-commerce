@@ -10,24 +10,25 @@ const ProductSchema = new mongoose.Schema(
     desc: {
       type: String,
       required: true,
-      },
+    },
     img: {
       type: String,
       required: true,
     },
-    categories : {
+    categories: {
       type: Array,
-     },
+    },
     size: {
-      type: String,
+      type: Array,
     },
     color: {
-      type: String,
+      type: Array,
     },
     price: {
       type: Number,
       required: true,
     },
+    inStock: { type: Boolean, default: true },
   },
   { timestamps: true }
 );

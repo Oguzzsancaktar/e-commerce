@@ -68,6 +68,9 @@
 second parameter is secret key ,
 thirt parameter takes object to includes options like expiresIn
 
+## CROS ORIGIN !!!
+- Add Cors to dependencies and apply it as middlaware your server
+
 #### Middlevares
 - Middlevares takes simply three parameters, req,res,next 
 - If next not calling your router wont work
@@ -82,3 +85,12 @@ thirt parameter takes object to includes options like expiresIn
 #### Mongodb Filter and dolar signs
 
 ## Using Stripe For Payment
+
+## Routing (frontend)
+- I will use react-router-dom library for routing.
+- If you want to take params from url you can use useLocation hook (react-router-dom)
+
+## Fetch Data From Server (axios)
+- For fetching products you can use useEffect to take changes
+- 
+

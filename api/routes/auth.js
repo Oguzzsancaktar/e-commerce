@@ -47,7 +47,7 @@ router.post("/login", async (req, res) => {
         isAdmin: user.isAdmin,
       },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" }
+      { expiresIn: "1w" }
     );
 
     const { password, ...others } = user._doc;

@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const userRouter = require("./routes/user");
@@ -23,6 +24,7 @@ mongoose
     console.log(err);
   });
 
+app.use(cors())
 app.use(express.json());
 app.use("/api/products", productRouter);
 app.use("/api/carts", cartRouter);
