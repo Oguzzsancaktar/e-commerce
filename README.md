@@ -92,5 +92,30 @@ thirt parameter takes object to includes options like expiresIn
 
 ## Fetch Data From Server (axios)
 - For fetching products you can use useEffect to take changes
-- 
+- When using axios we have axios.create method 
+- Axios create method takes an object, this object can store baseUrl or header
+- You can use this method instead of axios and you can send request easily
 
+<span style="color:red">- ? mark is important when data can come undefined or null </span>
+
+
+### Redux (toolkit)
+- Slice is basicly store element, you can add store with slice name
+- Slices have reducers, reducers is simply methods for slice, reducers takes state parameter and updates state
+- Reducers takes another parameter is named action, actions have payload this payload and action includes data
+- Reducers can export from slice.actions and slice.reducer
+- You must to import your reducers to configureStore
+- configureStore takes object which includes reducers
+- Configurestore reducer takes object which is reducer name value reducer itself
+- Wrap your component with Provider (from react-redux) for using store send this provider to your store
+- For reaching store state in child components you can use useSelector hook and it takes state parameter
+- state have reducers which we defined in store before (createStore)
+
+- Dispatch from react-redux
+- We are defined slice, it has name attribute for adding store and reducers for functions 
+- We exported reducer from slice.actions and if you want to call that function you should use useDispatch hook 
+- this hook takes parameter type of reducer function
+- we are sending paylod here
+- you can call funtion in dipatch or you can send function to dipatch as parameter
+- and in function you can call dispach
+- using it this way allows us to lose which component we were sent from
