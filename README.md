@@ -119,3 +119,14 @@ thirt parameter takes object to includes options like expiresIn
 - you can call funtion in dipatch or you can send function to dipatch as parameter
 - and in function you can call dispach
 - using it this way allows us to lose which component we were sent from
+
+### useHistory & useLocation
+- use useHistory hook from  react-router for redirecting user 
+- useHistory first parameter is path , second parameter takes object 
+- useLocation hooks gives us to location informations
+- useHistory hook deprecated, use useNavigate instead of useHistory
+- useNavigate first parameter is url and second parameter is takes option object send data with state
+
+
+### We are using persist for store state
+- 

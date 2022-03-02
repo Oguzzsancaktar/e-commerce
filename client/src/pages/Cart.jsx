@@ -6,6 +6,13 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { decreaseQuantity, increaseQuantity } from "../redux/cartRedux";
 import { mobile } from "../responsive";
+import StripeCheckout from "react-stripe-checkout";
+import { useEffect, useState } from "react";
+import { userRequest } from "../requestMethods";
+// import { useHistory } from "react-router";
+import { useNavigate } from "react-router-dom";
+
+const KEY = process.env.REACT_APP_STRIPE;
 
 const Container = styled.div``;
 
@@ -156,16 +163,42 @@ const Button = styled.button`
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
-  const dispatch = useDispatch()
-  
+  const dispatch = useDispatch();
+  // const history = useHistory();
+  const navigate = useNavigate();
+
+  const [stripeToken, setStripeToken] = useState(null);
+  const onToken = (token) => {
+    setStripeToken(token);
+  };
+
+  console.log(stripeToken);
+
   const handleAdd = (index) => {
-    dispatch(increaseQuantity({index}));
-  }
+    dispatch(increaseQuantity({ index }));
+  };
 
   const removeAdd = (index) => {
-    dispatch(decreaseQuantity({index}));
-  }
-  
+    dispatch(decreaseQuantity({ index }));
+  };
+
+  useEffect(() => {
+    const makeRequest = async () => {
+      try {
+        const res = await userRequest.post("/checkout/payment", {
+          tokenId: stripeToken.id,
+          amount: 5 * 100,
+        });
+        navigate("/success", {
+          state: { stripeData: res.data, products: cart },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    stripeToken && makeRequest();
+  }, [stripeToken, cart.total, navigate, cart]);
+
   return (
     <Container>
       <Navbar />
@@ -188,7 +221,7 @@ const Cart = () => {
                   <Image src={product.img} />
                   <Details>
                     <ProductName>
-                      <b>Product:</b> {product.name}
+                      <b>Product:</b> {product.title}
                     </ProductName>
                     <ProductId>
                       <b>ID:</b> {product._id}
@@ -201,9 +234,15 @@ const Cart = () => {
                 </ProductDetail>
                 <PriceDetail>
                   <ProductAmountContainer>
-                    <Add style={{cursor:'pointer'}} onClick={()=> handleAdd(index)} />
+                    <Add
+                      style={{ cursor: "pointer" }}
+                      onClick={() => handleAdd(index)}
+                    />
                     <ProductAmount>{product?.quantity}</ProductAmount>
-                    <Remove style={{cursor:'pointer'}} onClick={()=> removeAdd(index)} />
+                    <Remove
+                      style={{ cursor: "pointer" }}
+                      onClick={() => removeAdd(index)}
+                    />
                   </ProductAmountContainer>
                   <ProductPrice>
                     ${product.quantity * product.price}
@@ -231,7 +270,19 @@ const Cart = () => {
               <SummaryItemText>Total</SummaryItemText>
               <SummaryItemPrice>$ 80</SummaryItemPrice>
             </SummaryItem>
-            <Button>CHECKOUT NOW</Button>
+
+            <StripeCheckout
+              name="lama shop"
+              image="https://sendeyo.com/up/d/f3eb2117da"
+              billingAddress
+              shippingAddress
+              desctiption={`Your total is $${cart.total}`}
+              amount={cart.total * 100}
+              token={onToken}
+              stripeKey={KEY}
+            >
+              <Button>CHECKOUT NOW</Button>
+            </StripeCheckout>
           </Summary>
         </Bottom>
       </Wrapper>

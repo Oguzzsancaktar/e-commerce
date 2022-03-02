@@ -31,7 +31,8 @@ app.use("/api/carts", cartRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
-app.use("/api/stripe", stripeRouter);
+app.use("/api/checkout", stripeRouter);
+
 
 
 
