@@ -128,5 +128,6 @@ thirt parameter takes object to includes options like expiresIn
 - useNavigate first parameter is url and second parameter is takes option object send data with state
 
 
-### We are using persist for store state
-- 
+### We are using persist for store state (redux-persist)
+- persist gives us to protect redux state when page refresh
+- Combine reducers method gives us to mix reducers and return one reducer for using store
